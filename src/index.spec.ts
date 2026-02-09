@@ -4,7 +4,7 @@ import { doesClaimFallWithinPolicy } from './index';
 
 describe('Claim evaluation', () => {
     describe('isPolicyCurrentlyActive', () => {
-        it('Should return true if the current time is after the policy start time and before the policy end time', () => {
+        it('Should return true if the claim time is after the policy start time and before the policy end time', () => {
             const claim: Claim = {
                 policyId: 'test',
                 incidentType: 'accident',
@@ -22,6 +22,46 @@ describe('Claim evaluation', () => {
             }
 
             expect(doesClaimFallWithinPolicy(claim, policy)).toBeTruthy();
+        });
+
+        it('Should return false if the claim time is before the policy started', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2022, 6, 1),
+                amountClaimed: 50
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 10,
+                coverageLimit: 1000,
+                coveredIncidents: ['fire']
+            }
+
+            expect(doesClaimFallWithinPolicy(claim, policy)).toBeFalsy();
+        });
+
+        it('Should return false if the claim time is after the policy ended', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2028, 6, 1),
+                amountClaimed: 50
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 10,
+                coverageLimit: 1000,
+                coveredIncidents: ['fire']
+            }
+
+            expect(doesClaimFallWithinPolicy(claim, policy)).toBeFalsy();
         });
     })
 });
