@@ -1,0 +1,3 @@
+Jotting down thoughts as I work:
+
+- I think you need to use triple backticks to indicate code in a github commit message, so `npx ts-jest config:init` is missing from 890dd45
