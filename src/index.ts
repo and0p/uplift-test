@@ -1,5 +1,9 @@
 import type { Claim, Policy } from './types';
 
-export function doesClaimFallWithinPolicy(claim: Claim, policy: Policy): boolean {
+export function doesClaimFallWithinPolicyWindow(claim: Claim, policy: Policy): boolean {
     return claim.incidentDate >= policy.startDate && claim.incidentDate < policy.endDate
+}
+
+export function isClaimIncidentTypeCoveredUnderPolicy(claim: Claim, policy: Policy): boolean {
+    throw new Error('Not implemented');
 }
