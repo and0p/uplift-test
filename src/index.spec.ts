@@ -1,6 +1,6 @@
 import type { Claim, Policy } from './types';
 
-import { doesClaimFallWithinPolicyWindow, isClaimIncidentTypeCoveredUnderPolicy } from './index';
+import { doesClaimFallWithinPolicyWindow, isClaimIncidentTypeCoveredUnderPolicy, calculateClaimPayoutUnderPolicy } from './index';
 
 describe('Claim evaluation', () => {
     describe('isPolicyCurrentlyActive', () => {
@@ -116,6 +116,88 @@ describe('Claim evaluation', () => {
             }
 
             expect(isClaimIncidentTypeCoveredUnderPolicy(claim, policy)).toBeFalsy();
+        });
+    });
+
+    describe('calculateClaimPayoutUnderPolicy', () => {
+        it('Should return the amount passed if there is no deductible and the amount is below the limit', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2028, 6, 1),
+                amountClaimed: 5000
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 0,
+                coverageLimit: 1000000,
+                coveredIncidents: ['fire', 'theft']
+            }
+
+            expect(calculateClaimPayoutUnderPolicy(claim, policy)).toBe(5000);
+        });
+
+        it('Should subtract the deductible', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2028, 6, 1),
+                amountClaimed: 500
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 200,
+                coverageLimit: 1000000,
+                coveredIncidents: ['fire', 'theft']
+            }
+
+            expect(calculateClaimPayoutUnderPolicy(claim, policy)).toBe(300);
+        });
+
+        it('Should cap the amount at the coverage limit', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2028, 6, 1),
+                amountClaimed: 500000
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 0,
+                coverageLimit: 50,
+                coveredIncidents: ['fire', 'theft']
+            }
+
+            expect(calculateClaimPayoutUnderPolicy(claim, policy)).toBe(50);
+        });
+
+        it('Should consider the deductible before the coverage limit', () => {
+            const claim: Claim = {
+                policyId: 'test',
+                incidentType: 'accident',
+                incidentDate: new Date(2028, 6, 1),
+                amountClaimed: 600
+            }
+
+            const policy: Policy = {
+                policyId: 'test',
+                startDate: new Date(2025, 1, 1),
+                endDate: new Date(2025, 12, 1),
+                deductible: 200,
+                coverageLimit: 500,
+                coveredIncidents: ['fire', 'theft']
+            }
+
+            expect(calculateClaimPayoutUnderPolicy(claim, policy)).toBe(400);
         });
     });
 });
