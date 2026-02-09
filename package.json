@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/and0p/uplift-test/issues"
   },
-  "homepage": "https://github.com/and0p/uplift-test#readme"
+  "homepage": "https://github.com/and0p/uplift-test#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }
