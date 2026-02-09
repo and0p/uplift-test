@@ -5,5 +5,5 @@ export function doesClaimFallWithinPolicyWindow(claim: Claim, policy: Policy): b
 }
 
 export function isClaimIncidentTypeCoveredUnderPolicy(claim: Claim, policy: Policy): boolean {
-    throw new Error('Not implemented');
+  return policy.coveredIncidents.includes(claim.incidentType);
 }

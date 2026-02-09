@@ -106,7 +106,7 @@ describe('Claim evaluation', () => {
                 amountClaimed: 50
             }
 
-            let policy: Policy = {
+            const policy: Policy = {
                 policyId: 'test',
                 startDate: new Date(2025, 1, 1),
                 endDate: new Date(2025, 12, 1),
