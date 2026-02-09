@@ -1,10 +1,10 @@
-export type IncidentType = 'accident' | 'theft' | 'fire' | 'water damage';
+export type IncidentType = "accident" | "theft" | "fire" | "water damage";
 
 export interface Claim {
-    policyId: string,
-    incidentType: IncidentType,
-    incidentDate: Date,
-    amountClaimed: number
+  policyId: string;
+  incidentType: IncidentType;
+  incidentDate: Date;
+  amountClaimed: number;
 }
 
 export interface Policy {
@@ -16,10 +16,14 @@ export interface Policy {
   coveredIncidents: IncidentType[];
 }
 
-export type ReasonCode = 'APPROVED' | 'POLICY_INACTIVE' | 'NOT_COVERED' | 'ZERO_PAYOUT';
+export type ReasonCode =
+  | "APPROVED"
+  | "POLICY_INACTIVE"
+  | "NOT_COVERED"
+  | "ZERO_PAYOUT";
 
 export interface ClaimEvaluationResult {
-    approved: boolean,
-    payout: number,
-    reason: ReasonCode
+  approved: boolean;
+  payout: number;
+  reason: ReasonCode;
 }
