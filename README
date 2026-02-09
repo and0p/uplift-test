@@ -1,3 +1,4 @@
 Jotting down thoughts as I work:
 
 - I think you need to use triple backticks to indicate code in a github commit message, so `npx ts-jest config:init` is missing from 890dd45
+- I'm thinking of just using the `index.ts` file here for all the logic. The kata specified core logic so I'm building as a module, so not using an express server or anything where I'm putting the logic in a service.
