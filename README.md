@@ -4,7 +4,7 @@ Jotting down thoughts as I work:
 - I'm thinking of just using the `index.ts` file here for all the logic. The kata specified core logic so I'm building as a module, so not using an express server or anything where I'm putting the logic in a service.
 - I'm a fan of conventional commits but usually only when there are JIRA tickets or other tracking information to accompany them.
 - I'm calling `exports.someFunction` in the `evaluateClaims` function to simplify mocking. In the context of a full application these could go into separate files, but for this exercise it seems sufficient.
-
+- Most commits after the first are using an old work SSH that is the default on this Macbook, and belongs to a private github org, which is why they don't show as coming from my Github account.
 
 Per the instruction email:
 
