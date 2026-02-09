@@ -7,7 +7,7 @@ describe("Claim evaluation", () => {
     const defaultClaim: Claim = {
       policyId: "test",
       incidentType: "accident",
-      incidentDate: new Date(),
+      incidentDate: new Date(2025, 6, 1),
       amountClaimed: 500,
     };
 
@@ -37,10 +37,14 @@ describe("Claim evaluation", () => {
       // Mock "happy" returns by default, to reduce boilerplate later
       doesClaimFallWithinPolicyWindowSpy.mockReturnValue(true);
       isClaimIncidentTypeCoveredUnderPolicySpy.mockReturnValue(true);
-      calculateClaimPayoutUnderPolicySpy.mockReturnValue(100);
+      calculateClaimPayoutUnderPolicySpy.mockReturnValue(12345);
     });
 
     afterEach(() => {
+      jest.resetAllMocks();
+    });
+
+    afterAll(() => {
       jest.restoreAllMocks();
     });
 
@@ -88,7 +92,7 @@ describe("Claim evaluation", () => {
       const result = claimFunctions.evaluateClaim(defaultClaim, defaultPolicy);
       expect(result).toEqual({
         approved: true,
-        payout: 200,
+        payout: 12345,
         reason: "APPROVED",
       });
     });

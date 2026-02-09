@@ -4,12 +4,39 @@ export function evaluateClaim(
   claim: Claim,
   policy: Policy,
 ): ClaimEvaluationResult {
-  throw new Error("Not implemented.");
-  // check policy window
-  // check claim type
-  // calculate cost
-  // return if zero
-  // return payout
+  // Check if policy is active
+  if (!exports.doesClaimFallWithinPolicyWindow(claim, policy)) {
+    return {
+      approved: false,
+      payout: 0,
+      reason: "POLICY_INACTIVE",
+    };
+  }
+
+  // Check if claim is covered under policy
+  if (!exports.isClaimIncidentTypeCoveredUnderPolicy(claim, policy)) {
+    return {
+      approved: false,
+      payout: 0,
+      reason: "NOT_COVERED",
+    };
+  }
+
+  const payout = exports.calculateClaimPayoutUnderPolicy(claim, policy);
+
+  if (payout <= 0) {
+    return {
+      approved: false, // assuming this is correct behavior
+      payout: 0,
+      reason: "ZERO_PAYOUT",
+    };
+  }
+
+  return {
+    approved: true,
+    payout,
+    reason: "APPROVED",
+  };
 }
 
 export function doesClaimFallWithinPolicyWindow(
