@@ -1,4 +1,13 @@
-import type { Claim, Policy } from './types';
+import type { Claim, ClaimEvaluationResult, Policy } from './types';
+
+export function evaluateClaim(claim: Claim, policy: Policy): ClaimEvaluationResult {
+    throw new Error("Not implemented.");
+    // check policy window
+    // check claim type
+    // calculate cost
+    // return if zero
+    // return payout
+}
 
 export function doesClaimFallWithinPolicyWindow(claim: Claim, policy: Policy): boolean {
     return claim.incidentDate >= policy.startDate && claim.incidentDate < policy.endDate
