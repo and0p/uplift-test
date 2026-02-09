@@ -9,5 +9,11 @@ export function isClaimIncidentTypeCoveredUnderPolicy(claim: Claim, policy: Poli
 }
 
 export function calculateClaimPayoutUnderPolicy(claim: Claim, policy: Policy): number {
-    throw new Error("Not implemented");
+  // Subtract deductible
+  let payout = claim.amountClaimed - policy.deductible;
+  // Limit the payout by the policy maximum
+  if (payout > policy.coverageLimit) {
+    return policy.coverageLimit;
+  }
+  return payout;
 }
